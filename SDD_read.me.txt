@@ -1,0 +1,126 @@
+﻿표면 결함 검사 시스템 (Surface Defect Detection System)
+본 문서는 실시간 표면 결함 검출 및 AI 기반 분석 시스템 개발을 위한 공식 가이드입니다. 프로젝트의 목표, 기술 스택, 디렉토리 구조, 그리고 단계별 개발 흐름을 정의하여 효율적이고 체계적인 개발을 지원합니다.
+1. 프로젝트 목표
+실시간으로 수집되는 이미지 데이터를 AI 모델로 분석하여 제품 표면의 결함을 검출하고, 관련 데이터를 체계적으로 관리하며, 사용자에게 직관적인 분석 및 운영 도구를 제공하는 엔터프라이즈급 웹 애플리케이션을 구축합니다.
+2. 기술 스택 (권장)
+* 프론트엔드: React, TypeScript
+* 상태 관리: Zustand 또는 React Context
+* UI 프레임워크: Tailwind CSS
+* 데이터 시각화: Chart.js, D3.js (코일 맵 구현 시)
+* HTTP 클라이언트: Axios
+* 린터: ESLint
+3. 디렉토리 구조
+프로젝트의 확장성, 유지보수성, 팀원 간의 협업 효율을 극대화하기 위해 아래와 같은 구조를 제안합니다.
+/
+├── public/
+│   ├── index.html
+│   └── ... (기타 정적 파일)
+│
+├── src/
+│   ├── api/                # 백엔드 API 호출 함수 모음
+│   │   ├── auth.js
+│   │   ├── defects.js
+│   │   └── models.js
+│   │
+│   ├── assets/             # 이미지, 폰트, 전역 CSS
+│   │   ├── images/
+│   │   └── styles/
+│   │       └── global.css
+│   │
+│   ├── components/         # 재사용 가능한 공통 UI 컴포넌트
+│   │   ├── common/         # 원자 단위 컴포넌트 (Button, Input, Modal 등)
+│   │   └── layout/         # 레이아웃 컴포넌트 (Header, Sidebar, PageWrapper 등)
+│   │
+│   ├── constants/          # 상수 관리 (API 경로, 라우팅 경로 등)
+│   │   └── paths.js
+│   │
+│   ├── hooks/              # 커스텀 훅 (useAuth, useFetch 등)
+│   │
+│   ├── pages/              # 각 페이지의 메인 컴포넌트
+│   │   ├── Auth/           # 1. 로그인 페이지
+│   │   ├── Dashboard/      # 2. 메인 대시보드 (실시간 모니터링)
+│   │   ├── History/        # 3. 결함 이력 조회
+│   │   ├── CustomerRules/  # 4. 고객사별 기준 설정
+│   │   ├── ModelManagement/ # 5. AI 모델 관리
+│   │   ├── Diagnostics/    # 6. 시스템 진단
+│   │   └── DataManagement/ # 7. 데이터 관리
+│   │
+│   ├── store/              # 전역 상태 관리 (Zustand 또는 Context)
+│   │   ├── authStore.js
+│   │   └── uiStore.js
+│   │
+│   ├── utils/              # 유틸리티 함수 (날짜 포맷팅 등)
+│   │
+│   ├── App.jsx             # 메인 애플리케이션, 라우팅 설정
+│   └── index.jsx           # 애플리케이션 진입점
+│
+├── .env                    # 환경 변수
+├── .eslintrc.json          # ESLint 설정
+├── .gitignore              # Git 추적 제외 파일
+├── package.json            # 프로젝트 의존성 및 스크립트
+└── README.md               # 프로젝트 문서 (현재 파일)
+
+4. 단계별 개발 계획 (Development Flow)
+프로젝트를 안정적으로 진행하기 위해, 기능 단위를 묶어 총 5단계의 개발 페이즈(Phase)로 나누어 진행합니다. 각 단계는 이전 단계의 완성을 전제로 합니다.
+Phase 0: 프로젝트 기반 구축 (Foundation)
+* 목표: 본격적인 기능 개발에 앞서 프로젝트의 뼈대를 완성합니다.
+* 주요 Task:
+   1. create-react-app 또는 Vite를 이용해 React 프로젝트 생성
+   2. 위에서 정의한 디렉토리 구조 생성
+   3. 필수 라이브러리 설치 (react-router-dom, axios, tailwindcss, zustand 등)
+   4. ESLint, Prettier 설정으로 코드 스타일 통일
+   5. 공통 레이아웃 구현: 모든 페이지에 공통으로 사용될 Header, Sidebar 컴포넌트 제작
+   6. 페이지 라우팅 설정: pages 디렉토리 내 모든 페이지에 대한 기본 라우팅을 App.jsx에 설정 (초기에는 빈 페이지)
+Phase 1: 인증 및 사용자 관리 (Core Security)
+* 목표: 시스템의 핵심 보안 기능과 사용자 권한 관리 체계를 구축합니다.
+* 관련 페이지: LoginPage, CustomerRulesPage(일부)
+* 주요 Task:
+   1. 로그인 페이지 UI 및 기능 구현 (/api/auth.js 연동)
+   2. 로그인 성공 시 전역 상태(Store)에 사용자 정보 및 토큰 저장
+   3. 로그인 상태에 따라 특정 페이지 접근을 제어하는 PrivateRoute 컴포넌트 구현
+   4. 역할 기반 접근 제어(RBAC)를 위한 데이터 구조 설계 (백엔드 협의)
+   5. (관리자 기능) 사용자 및 역할 관리 UI 프로토타입 제작
+Phase 2: 핵심 기능 구현 - 모니터링 & 이력 조회
+* 목표: 시스템의 주 사용자인 오퍼레이터와 품질 분석가를 위한 핵심 화면을 개발합니다.
+* 관련 페이지: Dashboard, History
+* 주요 Task:
+   1. 메인 대시보드: 실시간 영상, 코일 전도, 운영 제어판 UI 구현 (초기에는 Mock 데이터 사용)
+   2. 결함 이력 조회 페이지:
+      * 고급 검색 필터 UI 구현
+      * 검색 결과 테이블 UI 구현
+      * 테이블 행 선택 시 상세 정보(이미지, 데이터, 코일 맵) 표시 영역 구현
+   3. 데이터 시각화: 코일 전도(Unrolled View) 컴포넌트 프로토타입 개발 (D3.js 또는 Chart.js 활용)
+   4. /api/defects.js를 통해 Mock API 연동 테스트
+Phase 3: AI 모델 및 시스템 지능화
+* 목표: AI 모델을 관리하고 시스템 운영을 자동화하는 고급 기능을 구현합니다.
+* 관련 페이지: ModelManagement
+* 주요 Task:
+   1. AI 모델 목록 및 성능 정보 표시 UI 구현
+   2. 모델 배포, 다중 모델 설정, BOM별 모델 설정 UI 프로토타입 제작
+   3. /api/models.js API 연동
+Phase 4: 관리 및 유지보수 기능
+* 목표: 시스템의 장기적인 안정성과 데이터 무결성을 보장하는 관리자용 유틸리티를 개발합니다.
+* 관련 페이지: CustomerRules, Diagnostics, DataManagement
+* 주요 Task:
+   1. 고객사별 불량 기준 설정 페이지 UI 및 기능 구현
+   2. 시스템 진단 (카메라 Calibration) 페이지 UI 구현
+   3. 데이터 관리 (파일명 일괄 변경, 스케줄 선택) 페이지 UI 구현
+Phase 5: 통합, 테스트 및 배포
+* 목표: 개발된 모든 기능을 통합하고 테스트하여 최종 버전을 완성합니다.
+* 주요 Task:
+   1. 전체 기능 통합 및 Mock API를 실제 API로 교체
+   2. 엔드-투-엔드(E2E) 테스트 시나리오 작성 및 수행
+   3. 사용자 피드백 수렴 및 최종 UI/UX 개선
+   4. 빌드 및 배포 준비
+5. 실행 명령어
+* 의존성 설치:
+npm install
+
+* 개발 서버 실행:
+npm run dev
+
+* 프로덕션 빌드:
+npm run build
+
+* 린트 및 포맷 검사:
+npm run lint
