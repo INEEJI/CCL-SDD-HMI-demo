@@ -6,11 +6,11 @@ import { Toaster } from 'react-hot-toast';
 
 const MainLayout: React.FC = () => {
   return (
-    <div className="flex h-screen text-text-primary font-sans">
+    <div className="flex h-screen bg-background">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header />
-        <main className="flex-1 overflow-auto p-6">
+        <main className="flex-1 overflow-y-auto p-6">
           <Outlet />
         </main>
       </div>
@@ -18,21 +18,9 @@ const MainLayout: React.FC = () => {
         position="top-right"
         toastOptions={{
           style: {
-            background: '#1A1A1A',
-            color: '#FFFFFF',
-            border: '1px solid #404040',
-          },
-          success: {
-            iconTheme: {
-              primary: '#10B981',
-              secondary: '#FFFFFF',
-            },
-          },
-          error: {
-            iconTheme: {
-              primary: '#EF4444',
-              secondary: '#FFFFFF',
-            },
+            background: '#ffffff',
+            color: '#111827',
+            border: '1px solid #e5e7eb',
           },
         }}
       />
@@ -40,4 +28,4 @@ const MainLayout: React.FC = () => {
   );
 };
 
-export default MainLayout; 
+export default MainLayout;
