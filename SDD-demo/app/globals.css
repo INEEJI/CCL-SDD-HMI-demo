@@ -1,0 +1,325 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 218 23% 8%;
+    --foreground: 210 40% 98%;
+    --card: 218 23% 10%;
+    --card-foreground: 210 40% 98%;
+    --popover: 218 23% 10%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 100% 50%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 218 23% 15%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 218 23% 15%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 210 100% 50%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 218 23% 20%;
+    --input: 218 23% 15%;
+    --ring: 210 100% 50%;
+    --radius: 0.5rem;
+
+    /* 산업용 HMI 색상 */
+    --hmi-bg-primary: 218 23% 8%;
+    --hmi-bg-secondary: 218 23% 12%;
+    --hmi-bg-panel: 218 23% 15%;
+    --hmi-text-primary: 210 40% 98%;
+    --hmi-text-secondary: 215 20.2% 75%;
+    --hmi-blue: 210 100% 50%;
+    --hmi-blue-dark: 210 100% 40%;
+    --hmi-orange: 25 100% 55%;
+    --hmi-green: 120 100% 40%;
+    --hmi-red: 0 84% 60%;
+    --hmi-yellow: 48 100% 50%;
+    --hmi-border: 218 23% 25%;
+  }
+
+  .dark {
+    --background: 218 23% 8%;
+    --foreground: 210 40% 98%;
+    --card: 218 23% 10%;
+    --card-foreground: 210 40% 98%;
+    --popover: 218 23% 10%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 100% 50%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 218 23% 15%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 218 23% 15%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 210 100% 50%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 218 23% 20%;
+    --input: 218 23% 15%;
+    --ring: 210 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background: linear-gradient(135deg, hsl(var(--hmi-bg-primary)) 0%, hsl(var(--hmi-bg-secondary)) 100%);
+    min-height: 100vh;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+}
+
+/* HMI 산업용 패널 스타일 */
+.hmi-panel {
+  background: linear-gradient(145deg, hsl(var(--hmi-bg-panel)), hsl(var(--hmi-bg-secondary)));
+  border: 1px solid hsl(var(--hmi-border));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hmi-panel-inset {
+  background: linear-gradient(145deg, hsl(var(--hmi-bg-secondary)), hsl(var(--hmi-bg-panel)));
+  border: 1px solid hsl(var(--hmi-border));
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.hmi-button {
+  background: linear-gradient(145deg, hsl(var(--hmi-bg-panel)), hsl(var(--hmi-bg-secondary)));
+  border: 1px solid hsl(var(--hmi-border));
+  transition: all 0.15s ease;
+}
+
+.hmi-button:hover {
+  background: linear-gradient(145deg, hsl(var(--hmi-bg-secondary)), hsl(var(--hmi-bg-panel)));
+  border-color: hsl(var(--hmi-blue));
+  box-shadow: 0 0 8px rgba(33, 150, 243, 0.3);
+}
+
+.hmi-button:active {
+  background: linear-gradient(145deg, hsl(var(--hmi-bg-secondary)), hsl(var(--hmi-bg-panel)));
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 상태 표시등 */
+.status-indicator {
+  position: relative;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: 0 0 4px currentColor, inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.status-indicator.active::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background: radial-gradient(circle, currentColor 0%, transparent 70%);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+/* 코일 전도 뷰 스타일 */
+.coil-unrolled {
+  background: linear-gradient(to right, hsl(var(--hmi-bg-panel)), hsl(var(--hmi-bg-secondary)));
+  border: 1px solid hsl(var(--hmi-border));
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.defect-marker {
+  position: absolute;
+  width: 8px;
+  height: 100%;
+  background: hsl(var(--hmi-red));
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 4px hsl(var(--hmi-red));
+}
+
+.defect-marker:hover {
+  width: 12px;
+  background: hsl(var(--hmi-red));
+  box-shadow: 0 0 8px hsl(var(--hmi-red));
+}
+
+.defect-marker.selected {
+  width: 12px;
+  background: hsl(var(--hmi-red));
+  box-shadow: 0 0 12px hsl(var(--hmi-red));
+}
+
+/* HMI 색상 유틸리티 클래스 */
+.text-hmi-blue {
+  color: hsl(var(--hmi-blue));
+}
+.text-hmi-orange {
+  color: hsl(var(--hmi-orange));
+}
+.text-hmi-green {
+  color: hsl(var(--hmi-green));
+}
+.text-hmi-red {
+  color: hsl(var(--hmi-red));
+}
+.text-hmi-yellow {
+  color: hsl(var(--hmi-yellow));
+}
+
+.bg-hmi-blue {
+  background-color: hsl(var(--hmi-blue));
+}
+.bg-hmi-orange {
+  background-color: hsl(var(--hmi-orange));
+}
+.bg-hmi-green {
+  background-color: hsl(var(--hmi-green));
+}
+.bg-hmi-red {
+  background-color: hsl(var(--hmi-red));
+}
+.bg-hmi-yellow {
+  background-color: hsl(var(--hmi-yellow));
+}
+
+.border-hmi-blue {
+  border-color: hsl(var(--hmi-blue));
+}
+.border-hmi-orange {
+  border-color: hsl(var(--hmi-orange));
+}
+.border-hmi-green {
+  border-color: hsl(var(--hmi-green));
+}
+.border-hmi-red {
+  border-color: hsl(var(--hmi-red));
+}
+.border-hmi-yellow {
+  border-color: hsl(var(--hmi-yellow));
+}
+
+/* 데이터 테이블 스타일 */
+.hmi-table {
+  background: hsl(var(--hmi-bg-panel));
+  border: 1px solid hsl(var(--hmi-border));
+}
+
+.hmi-table th {
+  background: linear-gradient(145deg, hsl(var(--hmi-bg-secondary)), hsl(var(--hmi-bg-panel)));
+  border-bottom: 1px solid hsl(var(--hmi-border));
+  color: hsl(var(--hmi-text-primary));
+  font-weight: 600;
+}
+
+.hmi-table td {
+  border-bottom: 1px solid hsl(var(--hmi-border));
+  color: hsl(var(--hmi-text-secondary));
+}
+
+.hmi-table tr:hover {
+  background: hsl(var(--hmi-bg-secondary));
+}
+
+/* 입력 필드 스타일 */
+.hmi-input {
+  background: hsl(var(--hmi-bg-secondary));
+  border: 1px solid hsl(var(--hmi-border));
+  color: hsl(var(--hmi-text-primary));
+}
+
+.hmi-input:focus {
+  border-color: hsl(var(--hmi-blue));
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+/* 스크롤바 스타일 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--hmi-bg-secondary));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--hmi-border));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--hmi-blue));
+}
+
+/* Aurora 배경 효과 */
+.aurora-bg {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.aurora-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+              radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+  animation: aurora 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes aurora {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(-10px, -10px) rotate(1deg);
+  }
+  50% {
+    transform: translate(10px, -5px) rotate(-1deg);
+  }
+  75% {
+    transform: translate(-5px, 10px) rotate(0.5deg);
+  }
+}
+
+/* Glass 패널 효과 */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}

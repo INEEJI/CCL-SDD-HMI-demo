@@ -1,112 +1,194 @@
-# CCL 표면 결함 검사 시스템 (SDD System)
+# CCL SDD System (표면 결함 검사 시스템)
 
-## 1. 프로젝트 개요
+CCL(Coil Coating Line, 컬러강판 설비) 표면 결함 검사 및 품질 관리 시스템입니다.
 
-본 프로젝트는 CCL(컬러프린팅강판라인) 표면에 발생하는 미세 결함을 실시간으로 검출하고 분석하는 시스템입니다. React와 TypeScript를 기반으로 구축되었으며, 최신 UI 트렌드를 적용하여 사용자에게 직관적이고 미려한 인터페이스를 제공하는 것을 목표로 합니다.
-
----
-
-## 2. 주요 기술 스택
-
--   **프레임워크**: React.js
--   **언어**: TypeScript
--   **빌드 도구**: Vite
--   **스타일링**: Tailwind CSS
--   **아이콘**: Lucide React
--   **상태 관리**: Zustand (via `scheduleStore`)
-
----
-
-## 3. UI/UX 디자인 시스템
-
-최근 대대적인 UI 개편을 통해 현대적이고 전문적인 디자인 시스템을 구축했습니다.
-
-### 주요 컨셉
--   **오로라 UI (Aurora UI)**: 정적인 단색 배경 대신, 은은하고 깊이감 있는 그라데이션 배경을 전역으로 적용하여 시각적 피로도를 줄이고 고급스러운 느낌을 더했습니다.
--   **글래스모피즘 (Glassmorphism)**: 주요 UI 패널(카드)에 반투명한 유리 질감 효과를 적용하여 컴포넌트 간의 계층 구조를 명확히 하고, 현대적인 미학을 구현했습니다.
--   **아이콘 시스템**: `lucide-react` 라이브러리를 도입하여 모든 아이콘을 통일하고, UI의 명료성과 완성도를 높였습니다.
--   **색상 및 타이포그래피**: GitHub의 디자인 시스템에서 영감을 받은 색상 팔레트를 사용하여 전문성을 높이고, 가독성을 고려한 타이포그래피 시스템을 적용했습니다.
-
-### 주요 개선 페이지
--   **대시보드**: 실시간 모니터링 현황을 한눈에 파악할 수 있도록 아이콘, 차트, 제어판 UI를 전면 재디자인했습니다.
--   **레이아웃 (헤더, 사이드바)**: 글래스모피즘을 적용하고 사용자 정보 및 시스템 상태 표시를 개선했습니다.
--   **결함 이력 페이지**: 검색 필터와 버튼의 크기를 최적화하고, 결함 유형별 태그 디자인을 개선하여 가독성을 높였습니다.
-
----
-
-## 4. 디렉토리 구조
-
-프로젝트의 주요 디렉토리 구조는 다음과 같습니다.
+## 🚀 프로젝트 구조
 
 ```
 CCL_SDD_system/
-└── demo-app/
-    ├── public/              # 정적 에셋 (Vite)
-    ├── src/
-    │   ├── api/             # API 연동 모듈
-    │   ├── assets/          # 이미지, 폰트 등 리소스
-    │   ├── components/      # 공통 재사용 컴포넌트
-    │   │   ├── common/      # 범용 컴포넌트
-    │   │   └── layout/      # 헤더, 사이드바 등 레이아웃
-    │   ├── constants/       # 상수 및 목업 데이터
-    │   ├── hooks/           # 커스텀 React 훅
-    │   ├── pages/           # 라우팅 단위 페이지 컴포넌트
-    │   │   ├── Dashboard/
-    │   │   ├── History/
-    │   │   ├── CustomerRules/
-    │   │   ├── ModelManagement/
-    │   │   ├── DataManagement/
-    │   │   └── Diagnostics/
-    │   ├── store/           # 전역 상태 관리 (Zustand)
-    │   └── utils/           # 유틸리티 함수
-    ├── index.html
-    ├── package.json
-    └── tailwind.config.js
+├── quality-management-system/   # 메인 애플리케이션 (Next.js)
+│   ├── app/                    # Next.js App Router
+│   ├── components/             # React 컴포넌트
+│   ├── lib/                    # 유틸리티 및 설정
+│   ├── database/               # 데이터베이스 스키마
+│   └── public/                 # 정적 파일
+├── ai-models/                  # Python AI 모델 (향후)
+├── docs/                       # 프로젝트 문서
+└── README.md                   # 이 파일
 ```
 
+## 📋 주요 기능
+
+### 1. 실시간 모니터링 대시보드
+- 실시간 결함 검출 시뮬레이션
+- 코일 전도 시각화 (CoilMapChart)
+- 주기성 결함 감지 및 알림
+- 시스템 제어 및 민감도 조절
+
+### 2. 데이터 관리
+- 생산 스케줄 선택 및 관리
+- 이미지 파일명 일괄 변경
+- 실제 테스트 이미지 갤러리
+
+### 3. 결함 이력 관리
+- 결함 검출 결과 조회 및 필터링
+- 고급 검색 기능
+- 결함 상세 정보 및 이미지 뷰어
+
+### 4. AI 모델 관리 (향후 구현)
+- 모델 버전 관리
+- 모델 배포 및 관리
+- 예측 결과 저장
+
+## 🛠️ 기술 스택
+
+### Frontend
+- **Next.js 15** - React 프레임워크
+- **React 19** - UI 라이브러리
+- **TypeScript** - 타입 안전성
+- **Tailwind CSS** - 스타일링
+- **shadcn/ui** - UI 컴포넌트
+- **Zustand** - 상태 관리
+- **Chart.js** - 데이터 시각화
+
+### Backend
+- **Next.js API Routes** - RESTful API
+- **PostgreSQL** - 관계형 데이터베이스
+- **Node.js** - 서버 런타임
+
+### AI/ML (향후 확장)
+- **Python** - 예측 모델
+- **FastAPI** - AI 모델 서버
+
+## 🚀 빠른 시작
+
+### 1. 메인 애플리케이션 실행
+
+```bash
+# 메인 프로젝트로 이동
+cd quality-management-system
+
+# 의존성 설치
+npm install
+
+# 환경 변수 설정
+cp .env.example .env.local
+# .env.local 파일을 편집하여 데이터베이스 설정
+
+# 개발 서버 시작
+npm run dev
+```
+
+### 2. Docker를 사용한 전체 시스템 실행
+
+```bash
+# Docker Compose로 전체 시스템 실행
+docker-compose up -d
+
+# 브라우저에서 확인
+open http://localhost:3000
+```
+
+## 📡 API 설계
+
+### RESTful API 엔드포인트
+
+#### 스케줄 관리
+- `GET /api/schedules` - 스케줄 목록 조회
+- `POST /api/schedules` - 새 스케줄 생성
+- `GET /api/schedules/[id]` - 스케줄 상세 조회
+- `PUT /api/schedules/[id]` - 스케줄 수정
+- `DELETE /api/schedules/[id]` - 스케줄 삭제
+
+#### 결함 검출 결과
+- `GET /api/defects` - 결함 검출 결과 조회
+- `POST /api/defects` - 새 결함 검출 결과 저장
+- `GET /api/defects/[id]` - 결함 상세 조회
+- `PUT /api/defects/[id]` - 결함 정보 수정
+- `DELETE /api/defects/[id]` - 결함 정보 삭제
+
+#### AI 모델 관리 (향후)
+- `GET /api/models` - 모델 목록 조회
+- `POST /api/models` - 새 모델 업로드
+- `PUT /api/models/[id]/deploy` - 모델 배포
+- `DELETE /api/models/[id]` - 모델 삭제
+
+## 🗄️ 데이터베이스 설계
+
+### 주요 테이블
+- `users` - 사용자 관리
+- `customers` - 고객사 정보
+- `schedules` - 생산 스케줄
+- `defect_detections` - 결함 검출 결과
+- `ai_models` - AI 모델 관리
+- `image_files` - 이미지 파일 관리
+
+## 📁 프로젝트 구조 상세
+
+```
+quality-management-system/
+├── app/                    # Next.js App Router
+│   ├── api/               # API 라우트
+│   │   ├── schedules/     # 스케줄 관리 API
+│   │   └── defects/       # 결함 검출 API
+│   ├── (protected)/       # 보호된 페이지
+│   │   ├── dashboard/     # 대시보드
+│   │   ├── history/       # 결함 이력
+│   │   ├── data-management/ # 데이터 관리
+│   │   └── model-management/ # 모델 관리
+│   └── globals.css        # 전역 스타일
+├── components/            # React 컴포넌트
+│   ├── ui/               # shadcn/ui 컴포넌트
+│   ├── layout/           # 레이아웃 컴포넌트
+│   └── coil-map-chart.tsx # 코일 맵 차트
+├── lib/                   # 유틸리티 및 설정
+│   ├── api/              # API 클라이언트
+│   ├── database/         # 데이터베이스 연결
+│   └── stores/           # Zustand 스토어
+├── database/             # 데이터베이스 스키마
+│   └── schema.sql        # PostgreSQL 스키마
+└── public/               # 정적 파일
+    └── images/           # 테스트 이미지
+```
+
+## 🔧 개발 가이드
+
+### 코드 스타일
+- TypeScript 사용
+- ESLint + Prettier 설정
+- 컴포넌트별 파일 분리
+- API 응답 타입 정의
+
+### 환경 설정
+- Node.js 18+ 필요
+- PostgreSQL 15+ 필요
+- Docker (선택사항)
+
+## 📝 변경 이력
+
+### v2.0.0 (현재)
+- Next.js 기반으로 전체 시스템 재구축
+- PostgreSQL 데이터베이스 연동
+- RESTful API 구현
+- Docker 컨테이너화
+
+### v1.0.0 (이전)
+- Vite + React 기반 demo-app
+- 모의 데이터 사용
+- 프론트엔드만 구현
+
+## 🤝 기여하기
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📞 문의
+
+프로젝트에 대한 문의사항이 있으시면 이슈를 생성해 주세요.
+
 ---
 
-## 5. 페이지별 주요 기능 (CRUD)
-
-| 페이지             | 생성 (Create) | 읽기 (Read)                                   | 수정 (Update) | 삭제 (Delete) | 비고                               |
-| ------------------ | :-----------: | :-------------------------------------------- | :-----------: | :-----------: | :--------------------------------- |
-| **대시보드**       |       -       | 실시간 결함 현황, 설비 상태, 통계 데이터 조회 |       -       |       -       | 데이터 시각화 및 실시간 모니터링   |
-| **결함 이력**      |       -       | 과거 결함 데이터 검색 및 필터링 (기간, 종류 등) |       -       |       -       | 상세 결함 정보 및 이미지 확인      |
-| **고객사 룰 관리** |     O     | 등록된 고객사 룰 목록 및 상세 조건 조회       |     O     |     O     | 고객사별 특별 결함 처리 기준 관리  |
-| **모델 관리**      |     O     | 학습된 AI 모델 목록 및 성능 지표 조회         |     O     |     O     | 모델 업로드, 버전 관리             |
-| **데이터 관리**    |     O     | 학습용 데이터셋 업로드                        |     O     |     O     | 데이터셋 조회, 레이블링 수정, 삭제 |
-| **시스템 진단**    |       -       | 시스템 로그, 하드웨어 상태, 통신 상태 확인    |       -       |       -       | 시스템 건전성 및 오류 진단         |
-
----
-
-## 6. 프로젝트 실행 방법
-
-1.  **디렉터리 이동**:
-    프로젝트의 `package.json` 파일은 `demo-app` 폴더 내에 있습니다. 반드시 해당 디렉터리로 이동해야 합니다.
-    ```bash
-    cd demo-app
-    ```
-
-2.  **의존성 설치**:
-    필요한 라이브러리를 설치합니다.
-    ```bash
-    npm install
-    ```
-
-3.  **개발 서버 실행**:
-    애플리케이션을 실행합니다.
-    ```bash
-    npm run dev
-    ```
-
----
-
-## 7. 주요 해결 과제 및 참고사항
-
--   **Tailwind CSS `theme()` 함수 오류**:
-    -   **문제**: `index.css` 파일 내에서 `theme()` 함수를 사용하여 `tailwind.config.js`의 색상 값을 참조할 때, 빌드 프로세스가 값을 제대로 해석하지 못하는 오류가 반복적으로 발생했습니다.
-    -   **해결**: `index.css`에서 `theme()` 함수 사용을 모두 제거했습니다. 대신, `index.html`의 `<body>` 태그에 직접 Tailwind 유틸리티 클래스(`bg-body-bg`, `text-text-primary`)를 적용하고, CSS 변수가 필요한 부분은 실제 색상 값(예: `#58A6FF`)을 하드코딩하여 문제를 우회했습니다.
-
--   **React 무한 렌더링 문제**:
-    -   **문제**: 대시보드 컴포넌트의 `useEffect` 의존성 배열에 `defects` 상태가 포함되어 있어, 결함 데이터가 업데이트될 때마다 불필요한 렌더링이 연쇄적으로 발생하는 무한 루프가 있었습니다.
-    -   **해결**: `useEffect`의 의존성 배열에서 `defects`를 제거하고, 시스템의 ON/OFF 상태(`isSystemOn`)에만 의존하도록 수정하여 문제를 해결했습니다. 
+**참고**: 이전 버전의 demo-app은 별도 저장소로 이동되었습니다. 

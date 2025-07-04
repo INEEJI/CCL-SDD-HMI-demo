@@ -1,0 +1,128 @@
+services:
+  # PostgreSQL 데이터베이스
+  postgres:
+    image: postgres:15
+    container_name: ccl-postgres
+    environment:
+      POSTGRES_DB: ccl_sdd_system
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+  # UI 서비스 (Next.js) - 기존 Dockerfile 사용
+  ui-service:
+    build: .
+    container_name: ccl-ui-service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ccl_sdd_system
+      DB_USER: postgres
+      DB_PASSWORD: password
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    volumes:
+      - ./public:/app/public
+      - ccl_images:/var/lib/ccl-images
+    restart: unless-stopped
+
+  # MES Socket 서비스 - 새로운 Dockerfile.service 사용
+  mes-socket:
+    build:
+      context: .
+      dockerfile: Dockerfile.service
+    container_name: ccl-mes-socket
+    command: node services/mes-socket-service.js
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ccl_sdd_system
+      DB_USER: postgres
+      DB_PASSWORD: password
+      MES_SOCKET_PORT: 8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+  # 이미지 수신 서비스 - 새로운 Dockerfile.service 사용
+  image-receiver:
+    build:
+      context: .
+      dockerfile: Dockerfile.service
+    container_name: ccl-image-receiver
+    command: node services/image-receiver-service.js
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ccl_sdd_system
+      DB_USER: postgres
+      DB_PASSWORD: password
+      IMAGE_RECEIVER_PORT: 8081
+      IMAGE_BASE_PATH: /var/lib/ccl-images
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+    volumes:
+      - ccl_images:/var/lib/ccl-images
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+  # 결함 데이터 수신 서비스 - 새로운 Dockerfile.service 사용
+  defect-data-receiver:
+    build:
+      context: .
+      dockerfile: Dockerfile.service
+    container_name: ccl-defect-data-receiver
+    command: node services/defect-data-receiver-service.js
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ccl_sdd_system
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DEFECT_DATA_PORT: 8082
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgres
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+  # 서비스 오케스트레이터 - 새로운 Dockerfile.service 사용
+  orchestrator:
+    build:
+      context: .
+      dockerfile: Dockerfile.service
+    container_name: ccl-orchestrator
+    command: node services/service-orchestrator.js
+    environment:
+      ORCHESTRATOR_PORT: 9000
+      LOG_DIR: /app/logs
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./logs:/app/logs
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  ccl_images:
+
+networks:
+  default:
+    name: ccl-network 
